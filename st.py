@@ -61,18 +61,21 @@ intro_guide_banner = '\
 ---------------------------------\n\
 Powered by Google Text to Speech.\n\
 ---------------------------------\n\
-Write the word you hear, then press\
-Enter.Capitalization is not checked.\n\
+Write the word you hear, then press \
+Enter. Capitalization is not checked.\n\
 ---------------------------------'
 
-# Loading words list
+# Loading words list and cleaning
 try:
     with open(words_name) as words_file:
-        words_lst = words_file.read().split('\n')[:-1]
+        words_lst = words_file.read().split('\n')
 except FileNotFoundError:
     print(words_file_banner)
     input()
     exit()
+
+words_lst = list(map(lambda s: s.strip(), words_lst))
+words_lst = [item for item in words_lst if item]
 #--------------------
 
 print(intro_guide_banner)
