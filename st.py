@@ -12,8 +12,7 @@ except:
         print('Check the internet connection.')
     finally:
         print('Run the program again.')
-        input()
-        exit()
+        safe_exit()
 #--------------------
 
 
@@ -51,7 +50,7 @@ def overwrite_new_words(text):
 def safe_exit():
     if os.path.isfile(audio_name):
         os.remove(audio_name)
-    input()
+    input('Press Enter to exit...')
     exit()
 #--------------------
 
@@ -64,14 +63,30 @@ count_wrong = 0
 wrong_words = ''
 
 words_file_banner = '\
-Write the words and expressions in a file called "st.txt". Write each item in one row. Save the file next to the program and run the program again.'
-
-intro_guide_banner = '\
+---------------------------------\n\
+        Spelling Trainer         \n\
 ---------------------------------\n\
 Powered by Google Text to Speech.\n\
 ---------------------------------\n\
-Write the word you hear, then press \
-Enter. Capitalization is not checked.\n\
+1. Write the words/expressions in\n\
+   a file. Write each item in one\n\
+   row.                          \n\
+2. Save the file as "st.txt".    \n\
+3. Put the file next to the app. \n\
+4. Run the app again.            \n\
+---------------------------------'
+
+intro_guide_banner = '\
+---------------------------------\n\
+         Spelling Trainer        \n\
+---------------------------------\n\
+Powered by Google Text to Speech.\n\
+---------------------------------\n\
+Write the word you hear, then    \n\
+press Enter.                     \n\
+* The app needs internet connec- \n\
+  tion.                          \n\
+* Capitalization is not checked. \n\
 ---------------------------------'
 
 
@@ -81,8 +96,7 @@ try:
         words_lst = words_file.read().split('\n')
 except FileNotFoundError:
     print(words_file_banner)
-    input()
-    exit()
+    safe_exit()
 
 words_lst = list(map(lambda s: s.strip(), words_lst))
 words_lst = [item for item in words_lst if item]
