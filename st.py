@@ -41,6 +41,13 @@ def check_word(text, correct_text):
     return True if text == correct_text else False
 
 
+def overwrite_new_words(text):
+    # Overwrite wrong words in 
+    new_words_file = open(words_name, 'w')
+    new_words_file.write(text)
+    new_words_file.close()
+
+
 def safe_exit():
     if os.path.isfile(audio_name):
         os.remove(audio_name)
@@ -48,11 +55,13 @@ def safe_exit():
     exit()
 #--------------------
 
+
 words_name = 'st.txt'
 language = 'en'
 audio_name = 'st.mp3'
 count_corr = 0
 count_wrong = 0
+wrong_words = ''
 
 words_file_banner = '\
 Write the words and expressions in a file called "st.txt". Write each item in one row. Save the file next to the program and run the program again.'
@@ -64,6 +73,7 @@ Powered by Google Text to Speech.\n\
 Write the word you hear, then press \
 Enter. Capitalization is not checked.\n\
 ---------------------------------'
+
 
 # Loading words list and cleaning
 try:
@@ -87,9 +97,17 @@ for word in words_lst:
         count_corr += 1
     else:
         print('Correct answer:', word)
+        wrong_words += word + '\n'
         count_wrong += 1
     print('---------------------------------')
 
 print('Correct:', count_corr, 'Wrong:', count_wrong)
+print('---------------------------------')
+
+new_words_bool = True if input('Do you want to keep \
+only the mistakes? [Y/n]: ').lower() == 'y' else False
+if new_words_bool:
+    overwrite_new_words(wrong_words)
+
 safe_exit()
 
