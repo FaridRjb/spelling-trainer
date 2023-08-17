@@ -48,7 +48,7 @@ def overwrite_new_words(text):
 
 
 def load_settings():
-    
+    # Loading settings
     settings_dict = {}
     with open(settings_name) as settings_file:
         settings_lines = settings_file.read().split('\n')
@@ -56,9 +56,11 @@ def load_settings():
         if 'repeat_wrong=' in line:
             settings_dict['repeat_wrong'] = \
             True if line[len('repeat_wrong='):] == '1' else False
-    
     return settings_dict
-            
+
+
+def splitter():
+    print('---------------------------------')
 
 
 def safe_exit():
@@ -135,10 +137,10 @@ for word in words_lst:
             words_lst.append(word)
         wrong_words += word + '\n'
         count_wrong += 1
-    print('---------------------------------')
+    splitter()
 
 print('Correct:', count_corr, 'Wrong:', count_wrong)
-print('---------------------------------')
+splitter()
 
 new_words_bool = True if input('Do you want to keep \
 only the mistakes? [Y/n]: ').lower() == 'y' else False
