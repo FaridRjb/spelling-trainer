@@ -47,6 +47,20 @@ def overwrite_new_words(text):
     new_words_file.close()
 
 
+def load_settings():
+    
+    settings_dict = {}
+    with open(settings_name) as settings_file:
+        settings_lines = settings_file.read().split('\n')
+    for line in settings_lines:
+        if 'repeat_wrong=' in line:
+            settings_dict['repeat_wrong'] = \
+            True if line[len('repeat_wrong='):] == '1' else False
+    
+    return settings_dict
+            
+
+
 def safe_exit():
     if os.path.isfile(audio_name):
         os.remove(audio_name)
@@ -58,6 +72,7 @@ def safe_exit():
 words_name = 'st.txt'
 language = 'en'
 audio_name = 'st.mp3'
+settings_name = 'settings.txt'
 count_corr = 0
 count_wrong = 0
 wrong_words = ''
@@ -102,6 +117,11 @@ words_lst = list(map(lambda s: s.strip(), words_lst))
 words_lst = [item for item in words_lst if item]
 #--------------------
 
+
+# Loading settings
+settings = load_settings()
+#--------------------
+
 print(intro_guide_banner)
 
 for word in words_lst:
@@ -111,6 +131,8 @@ for word in words_lst:
         count_corr += 1
     else:
         print('Correct answer:', word)
+        if settings['repeat_wrong']:
+            words_lst.append(word)
         wrong_words += word + '\n'
         count_wrong += 1
     print('---------------------------------')
